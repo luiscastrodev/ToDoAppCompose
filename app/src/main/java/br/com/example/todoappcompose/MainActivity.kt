@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import br.com.example.todoappcompose.navigation.SetupNavigation
 import br.com.example.todoappcompose.ui.theme.ToDoAppComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,12 +19,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ToDoAppComposeTheme {
-                Box (
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ){
-                    Text(text = "My first composable")
-                }
+               val navController = rememberNavController()
+
+                SetupNavigation(navHostController = navController)
             }
         }
     }
