@@ -18,6 +18,5 @@ fun NavGraphBuilder.taskComposable(
             type = NavType.IntType
         })
     ) {
-        
     }
 }
