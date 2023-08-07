@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import br.com.example.todoappcompose.navigation.destinations.listComposable
+import br.com.example.todoappcompose.navigation.destinations.taskComposable
 import br.com.example.todoappcompose.util.Constants
 
 
@@ -15,9 +16,13 @@ fun SetupNavigation(
     val screen = remember(navHostController) {
         Screens(navHostController)
     }
-    NavHost(navController = navHostController, startDestination = Constants.LIST_SCREEN ){
-        listComposable(){
-            
-        }
+    NavHost(
+        navController = navHostController,
+        startDestination = Constants.LIST_SCREEN
+    ) {
+        listComposable(
+            navigateToTaskScreen = screen.task
+        )
+        taskComposable(navigateToListScreen = screen.list)
     }
 }
