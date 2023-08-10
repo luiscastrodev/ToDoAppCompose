@@ -20,6 +20,7 @@ fun SetupNavigation(
         navController = navHostController,
         startDestination = Constants.LIST_SCREEN
     ) {
+
         listComposable(
             navigateToTaskScreen = screen.task
         )
