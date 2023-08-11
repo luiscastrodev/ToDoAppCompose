@@ -1,6 +1,5 @@
 package br.com.example.todoappcompose.data.models
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.example.todoappcompose.util.Constants.DATABASE_TABLE

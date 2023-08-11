@@ -7,7 +7,6 @@ import br.com.example.todoappcompose.ui.theme.MediumPriorityColor
 import br.com.example.todoappcompose.ui.theme.NonePriorityColor
 
 enum class Priority(val color: Color) {
-
     HIGH(HighPriorityColor),
     MEDIUM(MediumPriorityColor),
     LOW(LowPriorityColor),

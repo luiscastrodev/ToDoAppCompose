@@ -3,6 +3,7 @@ package br.com.example.todoappcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import br.com.example.todoappcompose.navigation.SetupNavigation
 import br.com.example.todoappcompose.ui.theme.ToDoAppComposeTheme
@@ -20,7 +21,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 }
 
 
