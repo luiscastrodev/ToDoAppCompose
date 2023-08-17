@@ -222,7 +222,7 @@ fun SearchAppBar(
     onSearchClicked: (text: String) -> Unit,
 ) {
 
-    var tralingIconState by remember { mutableStateOf(TralingIconState.READY_TO_DELETE) }
+    var tralingIconState by remember { mutableStateOf(TralingIconState.READY_TO_CLOSE) }
 
     Surface(
         modifier = Modifier
