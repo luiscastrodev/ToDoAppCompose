@@ -1,4 +1,5 @@
 package br.com.example.todoappcompose.ui.screens.list
+
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,11 +29,23 @@ import br.com.example.todoappcompose.ui.theme.PRIORITY_INDICATOR_SIZE
 
 @Composable
 fun ListContent(
+    tasks: List<ToDoTask>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-
+    LazyColumn() {
+        items(tasks, key = { task ->
+            task.id
+        }
+        ) { task ->
+            TaskItem(
+                toDoTask = task,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskItem(
     toDoTask: ToDoTask,
@@ -89,6 +104,16 @@ fun TaskItem(
             )
         }
     }
+}
+
+@Composable
+@Preview
+fun ListTaskItemPreview() {
+    ListContent(tasks = listOf(
+        ToDoTask(0, "New Car", "My new car will be soon", Priority.MEDIUM),
+        ToDoTask(1, "New Car", "My new car will be soon", Priority.MEDIUM),
+        ToDoTask(2, "New Car", "My new car will be soon", Priority.MEDIUM)
+    ) , navigateToTaskScreen = {})
 }
 
 @Composable

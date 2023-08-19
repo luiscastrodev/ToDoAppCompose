@@ -108,7 +108,4 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
-    val composeBom = platform("androidx.compose:compose-bom:2023.08.00")
-    implementation(composeBom)
-
 }
