@@ -44,18 +44,12 @@ fun ListScreen(
         },
         floatingActionButton = {
             ListFab(onFabClicked = navigateToTaskScreen)
+        },
+        content = {
+            ListContent()
         }
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    )
 
-            Text(text = "Hello", fontSize = 25.sp, color = Color.Black)
-        }
-
-    }
 }
 
 @Composable
