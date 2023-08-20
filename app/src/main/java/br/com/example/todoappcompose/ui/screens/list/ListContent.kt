@@ -4,12 +4,14 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,19 +28,22 @@ import br.com.example.todoappcompose.data.models.Priority
 import br.com.example.todoappcompose.data.models.ToDoTask
 import br.com.example.todoappcompose.ui.theme.LARGE_PADDING
 import br.com.example.todoappcompose.ui.theme.PRIORITY_INDICATOR_SIZE
+import br.com.example.todoappcompose.util.RequestState
 
 @Composable
 fun ListContent(
-    tasks: List<ToDoTask>,
+    tasks: RequestState<List<ToDoTask>>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (tasks.isEmpty()) {
-        EmptyContent()
-    } else {
-        DisplayTasks(
-            tasks = tasks,
-            navigateToTaskScreen = navigateToTaskScreen
-        )
+    if (tasks is RequestState.Success) {
+        if(tasks.data.isEmpty()){
+            EmptyContent()
+        }else {
+            DisplayTasks(
+                tasks = tasks.data,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
     }
 }
 
@@ -124,10 +129,7 @@ fun TaskItem(
 @Composable
 @Preview
 fun ListTaskItemPreview() {
-    ListContent(tasks = listOf(
-        ToDoTask(0, "New Car", "My new car will be soon", Priority.LOW),
-        ToDoTask(1, "New Car2", "My new car will be soon", Priority.MEDIUM),
-    ), navigateToTaskScreen = {})
+    ListContent(tasks = RequestState.Loading, navigateToTaskScreen = {})
 }
 
 @Composable
