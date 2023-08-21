@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.sp
 import br.com.example.todoappcompose.R
 
 
- val Nunito = FontFamily(
+val Nunito = FontFamily(
     Font(R.font.nunito_bold, weight = FontWeight.Bold),
     Font(R.font.nunito_regular, weight = FontWeight.Normal)
 )
@@ -36,5 +36,5 @@ val Typography = Typography(
         fontSize = 11.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
-    )
+    ),
 )

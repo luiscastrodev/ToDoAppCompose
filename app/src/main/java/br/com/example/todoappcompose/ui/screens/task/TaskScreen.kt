@@ -10,15 +10,16 @@ import br.com.example.todoappcompose.util.Action
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskScreen(
+    navigaToListScreen: (Action) -> Unit
 ) {
     Scaffold(
         topBar = {
-                 
+            TaskAppBar(navigaToListScreen = navigaToListScreen)
         },
         floatingActionButton = {
 
         },
-        content =  {
+        content = {
 
         }
     )
