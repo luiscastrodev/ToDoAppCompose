@@ -14,7 +14,7 @@ import br.com.example.todoappcompose.util.Constants
 @Composable
 fun SetupNavigation(
     navHostController: NavHostController,
-    sharedViewModel: SharedViewModel  = hiltViewModel()
+    sharedViewModel: SharedViewModel
 ) {
     val screen = remember(navHostController) {
         Screens(navHostController)
@@ -28,6 +28,9 @@ fun SetupNavigation(
             navigateToTaskScreen = screen.task,
             sharedViewModel
         )
-        taskComposable(navigateToListScreen = screen.list)
+        taskComposable(
+            navigateToListScreen = screen.list,
+            sharedViewModel = sharedViewModel
+        )
     }
 }

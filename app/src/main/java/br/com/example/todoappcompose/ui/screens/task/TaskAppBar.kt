@@ -22,9 +22,18 @@ import br.com.example.todoappcompose.util.Action
 
 @Composable
 fun TaskAppBar(
+    selectedTask: ToDoTask?,
     navigaToListScreen: (Action) -> Unit
 ) {
-    NewTaskAppBar(navigaToListScreen = navigaToListScreen)
+    if (selectedTask == null) {
+        NewTaskAppBar(navigaToListScreen = navigaToListScreen)
+    } else {
+        ExistingTaskAppBar(
+            selectedTask = selectedTask,
+            navigaToListScreen = navigaToListScreen
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
