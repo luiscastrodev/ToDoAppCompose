@@ -1,6 +1,5 @@
 package br.com.example.todoappcompose.ui.screens.task
 
-import android.widget.Toast
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -33,7 +32,6 @@ fun TaskAppBar(
             navigaToListScreen = navigaToListScreen
         )
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
