@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.example.todoappcompose.data.models.Priority
@@ -44,10 +46,12 @@ fun PriorotyDropDown(
     Row(
         modifier =
         Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(fraction = 0.94f)
             .height(60.dp)
             .clickable { expanded = true }
-            .border(width = 1.dp, color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)),
+            .border(width = 1.dp, color = Color.Black.copy(alpha = 0.5f),
+                shape = RoundedCornerShape(4.dp)
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Canvas(

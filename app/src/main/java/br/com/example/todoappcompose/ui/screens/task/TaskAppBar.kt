@@ -1,5 +1,7 @@
 package br.com.example.todoappcompose.ui.screens.task
 
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -12,11 +14,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import br.com.example.todoappcompose.data.models.ToDoTask
 import br.com.example.todoappcompose.ui.theme.Nunito
 import br.com.example.todoappcompose.ui.theme.Purple80
+import br.com.example.todoappcompose.ui.theme.TOP_APP_BAR_HEIGHT
 import br.com.example.todoappcompose.util.Action
 
 @Composable
