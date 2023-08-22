@@ -31,7 +31,9 @@ fun NavGraphBuilder.taskComposable(
 
         LaunchedEffect(key1 = selectedTask){
             Log.d("LaunchedEffect","NavGraphBuilder")
-            sharedViewModel.updateTaskFields(selectedTask)
+            if(selectedTask != null || taskId == -1){
+                sharedViewModel.updateTaskFields(selectedTask)
+            }
         }
         TaskScreen(
             navigaToListScreen = navigateToListScreen,

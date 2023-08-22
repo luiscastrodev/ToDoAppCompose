@@ -59,7 +59,7 @@ fun ListAppBar(
                 sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
             },
                 onSortClicked = { },
-                onDeleteClicked = {}
+                onDeleteClicked = { }
             )
         }
 
