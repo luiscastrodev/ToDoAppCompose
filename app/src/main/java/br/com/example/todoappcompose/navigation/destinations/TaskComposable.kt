@@ -30,7 +30,7 @@ fun NavGraphBuilder.taskComposable(
         val selectedTask by sharedViewModel.selectedTask.collectAsState()
 
         LaunchedEffect(key1 = selectedTask){
-            Log.d("LaunchedEffect","LaunchedEffect")
+            Log.d("LaunchedEffect","NavGraphBuilder")
             sharedViewModel.updateTaskFields(selectedTask)
         }
         TaskScreen(

@@ -46,7 +46,6 @@ fun PriorotyDropDown(
     Row(
         modifier =
         Modifier
-            .fillMaxWidth(fraction = 0.94f)
             .height(60.dp)
             .clickable { expanded = true }
             .border(width = 1.dp, color = Color.Black.copy(alpha = 0.5f),
