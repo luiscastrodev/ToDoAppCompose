@@ -42,6 +42,7 @@ import br.com.example.todoappcompose.ui.theme.Nunito
 import br.com.example.todoappcompose.ui.theme.Purple80
 import br.com.example.todoappcompose.ui.theme.TOP_APP_BAR_HEIGHT
 import br.com.example.todoappcompose.ui.viewmodels.SharedViewModel
+import br.com.example.todoappcompose.util.Action
 import br.com.example.todoappcompose.util.SearchAppBarState
 import br.com.example.todoappcompose.util.TralingIconState
 
@@ -58,7 +59,7 @@ fun ListAppBar(
                 sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
             },
                 onSortClicked = { },
-                onDeleteClicked = { }
+                onDeleteClicked = {}
             )
         }
 
@@ -265,15 +266,16 @@ fun SearchAppBar(
             },
             trailingIcon = {
                 IconButton(onClick = {
-                    when(tralingIconState){
+                    when (tralingIconState) {
                         TralingIconState.READY_TO_DELETE -> {
                             onTextChange("")
                             tralingIconState = TralingIconState.READY_TO_CLOSE
                         }
+
                         TralingIconState.READY_TO_CLOSE -> {
-                            if(text.isNotEmpty()){
+                            if (text.isNotEmpty()) {
                                 onTextChange("")
-                            }else{
+                            } else {
                                 onCloseClicked()
                                 tralingIconState = TralingIconState.READY_TO_DELETE
                             }
