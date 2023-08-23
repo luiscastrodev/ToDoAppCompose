@@ -123,6 +123,12 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private fun deleteAll (): Unit {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteallTask()
+        }
+    }
+
 
     fun handeDatabaseActions(action: Action) {
         when (action) {
@@ -139,6 +145,7 @@ class SharedViewModel @Inject constructor(
             }
 
             Action.DELETE_ALL -> {
+                deleteAll()
             }
 
             Action.UNDO -> {

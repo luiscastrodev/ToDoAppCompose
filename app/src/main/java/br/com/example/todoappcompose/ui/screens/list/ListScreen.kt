@@ -63,7 +63,7 @@ fun ListScreen(
             ListAppBar(
                 sharedViewModel,
                 searchAppBarState,
-                searchTextState
+                searchTextState,
             )
         },
         floatingActionButton = {
@@ -109,7 +109,7 @@ fun DisplaySnackBar(
         if (action != Action.NO_ACTION) {
             scope.launch {
                 val snackbarResult = scaffoldState.showSnackbar(
-                    message = "${action.name}: $taskTitle",
+                    message = setMessage(action, taskTitle),
                     actionLabel = setActionLabel(action)
                 )
 
@@ -120,6 +120,13 @@ fun DisplaySnackBar(
                 )
             }
         }
+    }
+}
+
+private fun setMessage(action: Action, taskTitle: String): String {
+    return when (action) {
+        Action.DELETE_ALL -> "All Tasks Removed."
+        else -> "${action.name} : $taskTitle"
     }
 }
 
