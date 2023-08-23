@@ -40,6 +40,8 @@ fun ListScreen(
 
     val action by sharedViewModel.action
     val allTasks by sharedViewModel.allTaks.collectAsState()
+    val searchTasks by sharedViewModel.searchTasks.collectAsState()
+
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
 
@@ -68,7 +70,7 @@ fun ListScreen(
             ListFab(onFabClicked = navigateToTaskScreen)
         },
         content = {
-            ListContent(allTasks, navigateToTaskScreen)
+            ListContent(allTasks, searchTasks, searchAppBarState, navigateToTaskScreen)
         },
     )
 

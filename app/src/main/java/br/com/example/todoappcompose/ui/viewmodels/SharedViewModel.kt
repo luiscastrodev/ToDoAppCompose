@@ -39,6 +39,28 @@ class SharedViewModel @Inject constructor(
     private val _allTaks = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
     val allTaks: StateFlow<RequestState<List<ToDoTask>>> = _allTaks
 
+    private val _searchTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
+    val searchTasks: StateFlow<RequestState<List<ToDoTask>>> = _searchTasks
+
+    fun searchDataBase(
+        searchQuery: String
+    ) {
+        _searchTasks.value = RequestState.Loading
+
+        try {
+            viewModelScope.launch {
+                repository.searchDataBase("%$searchQuery%")
+                    .collect { searchTasks ->
+                        _searchTasks.value = RequestState.Success(searchTasks)
+                    }
+            }
+        } catch (e: Exception) {
+            _searchTasks.value = RequestState.Error(e)
+        }
+
+        searchAppBarState.value = SearchAppBarState.TRIGGERED
+    }
+
     fun getallTasks() {
         _allTaks.value = RequestState.Loading
 
@@ -75,6 +97,7 @@ class SharedViewModel @Inject constructor(
             repository.addTask(toDoTask)
         }
     }
+
     private fun updateTask() {
         viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTask(
@@ -86,6 +109,7 @@ class SharedViewModel @Inject constructor(
             repository.updateTask(toDoTask)
         }
     }
+
     private fun deleteSingleTask() {
         viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTask(
@@ -99,23 +123,27 @@ class SharedViewModel @Inject constructor(
     }
 
 
-
     fun handeDatabaseActions(action: Action) {
         when (action) {
             Action.ADD -> {
                 addTask()
             }
+
             Action.UPDATE -> {
                 updateTask()
             }
+
             Action.DELETE -> {
                 deleteSingleTask()
             }
+
             Action.DELETE_ALL -> {
             }
+
             Action.UNDO -> {
                 addTask()
             }
+
             else -> {}
         }
         this.action.value = Action.NO_ACTION
