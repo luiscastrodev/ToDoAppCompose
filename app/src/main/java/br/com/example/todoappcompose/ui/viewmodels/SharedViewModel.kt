@@ -96,6 +96,7 @@ class SharedViewModel @Inject constructor(
             )
             repository.addTask(toDoTask)
         }
+        searchAppBarState.value = SearchAppBarState.CLOSED
     }
 
     private fun updateTask() {
