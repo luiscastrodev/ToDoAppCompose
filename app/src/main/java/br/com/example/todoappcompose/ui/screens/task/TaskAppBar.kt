@@ -14,9 +14,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import br.com.example.todoappcompose.components.DisplayAlertDialog
 import br.com.example.todoappcompose.data.models.ToDoTask
 import br.com.example.todoappcompose.ui.theme.Nunito
 import br.com.example.todoappcompose.ui.theme.Purple80
@@ -87,10 +92,39 @@ fun ExistingTaskAppBar(
             containerColor = Purple80
         ),
         actions = {
-            DeleteAction(onDeleteClicked = navigaToListScreen)
-            UpdateAction(onUpdateClicked = navigaToListScreen)
+            ExistingTaskAppBarAction(
+                selectedTask = selectedTask,
+                navigaToListScreen = navigaToListScreen
+            )
         }
     )
+}
+
+@Composable
+fun ExistingTaskAppBarAction(
+    selectedTask: ToDoTask,
+    navigaToListScreen: (Action) -> Unit
+) {
+    var openDialog by remember {
+        mutableStateOf(false)
+    }
+
+    DisplayAlertDialog(
+        title = "Are you sure you want to remove?",
+        message = "Task will be delete ${selectedTask.title}",
+        openDialog = openDialog,
+        closeDialog = {
+            openDialog = false
+        },
+        onYesClicked = {
+            navigaToListScreen(Action.DELETE)
+        },
+    )
+
+    DeleteAction(onDeleteClicked = {
+        openDialog = true
+    })
+    UpdateAction(onUpdateClicked = navigaToListScreen)
 }
 
 @Composable
@@ -136,10 +170,10 @@ fun CloseAction(
 
 @Composable
 fun DeleteAction(
-    onDeleteClicked: (Action) -> Unit
+    onDeleteClicked: () -> Unit
 ) {
     IconButton(onClick = {
-        onDeleteClicked(Action.DELETE)
+        onDeleteClicked()
     }
     ) {
         Icon(
