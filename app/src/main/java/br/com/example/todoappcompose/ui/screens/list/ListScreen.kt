@@ -75,7 +75,19 @@ fun ListScreen(
             ListFab(onFabClicked = navigateToTaskScreen)
         },
         content = {
-            ListContent(allTasks, searchTasks,lowPriorityTasks,highPriorityTasks,sortState, searchAppBarState, navigateToTaskScreen)
+            ListContent(
+                allTasks,
+                searchTasks,
+                lowPriorityTasks,
+                highPriorityTasks,
+                sortState,
+                searchAppBarState,
+                navigateToTaskScreen,
+                onSwipeToDelete = { action, task ->
+                    sharedViewModel.action.value = action
+                    sharedViewModel.updateTaskFields(task)
+                }
+            )
         },
     )
 
