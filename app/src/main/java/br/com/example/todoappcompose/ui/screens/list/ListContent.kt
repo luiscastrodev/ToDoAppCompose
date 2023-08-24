@@ -1,6 +1,12 @@
 package br.com.example.todoappcompose.ui.screens.list
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,7 +32,12 @@ import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -43,6 +54,8 @@ import br.com.example.todoappcompose.ui.theme.PRIORITY_INDICATOR_SIZE
 import br.com.example.todoappcompose.util.Action
 import br.com.example.todoappcompose.util.RequestState
 import br.com.example.todoappcompose.util.SearchAppBarState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ListContent(
@@ -116,6 +129,7 @@ fun HandleListContent(
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DisplayTasks(
@@ -133,7 +147,12 @@ fun DisplayTasks(
             val dimisDirection = dimissState.dismissDirection
             val isDimissed = dimissState.isDismissed(DismissDirection.EndToStart)
             if (isDimissed && dimisDirection == DismissDirection.EndToStart) {
-                onSwipeToDelete(Action.DELETE, task)
+
+                val scope = rememberCoroutineScope()
+                scope.launch {
+                    delay(300)
+                    onSwipeToDelete(Action.DELETE, task)
+                }
             }
             val degress by animateFloatAsState(
                 targetValue =
@@ -142,19 +161,43 @@ fun DisplayTasks(
                 else -45f,
                 label = ""
             )
-            SwipeToDismiss(
-                state = dimissState,
-                directions = setOf(DismissDirection.EndToStart),
-                background = {
-                    ReadBackGround(degress)
-                },
-                dismissContent = {
-                    TaskItem(
-                        toDoTask = task,
-                        navigateToTaskScreen = navigateToTaskScreen
+
+            var itemAppeared by remember {
+                mutableStateOf(false)
+            }
+
+            LaunchedEffect(key1 = true ){
+                itemAppeared = true
+            }
+
+            AnimatedVisibility(
+                visible = itemAppeared && !isDimissed,
+                enter = expandVertically(
+                    animationSpec = tween(
+                        durationMillis = 300
                     )
-                }
-            )
+                ),
+                exit = shrinkVertically(
+                    animationSpec = tween(
+                        durationMillis = 300
+                    )
+                )
+
+            ) {
+                SwipeToDismiss(
+                    state = dimissState,
+                    directions = setOf(DismissDirection.EndToStart),
+                    background = {
+                        ReadBackGround(degress)
+                    },
+                    dismissContent = {
+                        TaskItem(
+                            toDoTask = task,
+                            navigateToTaskScreen = navigateToTaskScreen
+                        )
+                    }
+                )
+            }
         }
     }
 }
@@ -179,7 +222,6 @@ fun ReadBackGround(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskItem(
     toDoTask: ToDoTask,
