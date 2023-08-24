@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.example.todoappcompose.R
+import br.com.example.todoappcompose.components.DisplayAlertDialog
 import br.com.example.todoappcompose.components.PriorityItem
 import br.com.example.todoappcompose.data.models.Priority
 import br.com.example.todoappcompose.ui.theme.LARGE_PADDING
@@ -60,7 +61,7 @@ fun ListAppBar(
                     sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
                 },
                 onSortClicked = { },
-                onDeleteClicked = {
+                onDeleteAllConfimed = {
                     sharedViewModel.action.value = Action.DELETE_ALL
                 },
             )
@@ -87,7 +88,7 @@ fun ListAppBar(
 fun DefaultListAppBar(
     onSearchClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
-    onDeleteClicked: () -> Unit
+    onDeleteAllConfimed: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -104,7 +105,7 @@ fun DefaultListAppBar(
             ListAppBarActions(
                 onSearchClicked,
                 onSortClicked,
-                onDeleteClicked
+                onDeleteAllConfimed
             )
         }
     )
@@ -114,11 +115,30 @@ fun DefaultListAppBar(
 fun ListAppBarActions(
     onSearchClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
-    onDeleteClicked: () -> Unit
+    onDeleteAllConfimed: () -> Unit
 ) {
+
+    var openDialog by remember {
+        mutableStateOf(false)
+    }
+
+    DisplayAlertDialog(
+        title = "Are you sure you want to remove?",
+        message = "There is no way to going back",
+        openDialog = openDialog,
+        closeDialog = {
+            openDialog = false
+        },
+        onYesClicked = {
+            onDeleteAllConfimed()
+        }
+    )
+
     SearchAction(onSearchClicked)
     SortAction(onSortClicked = onSortClicked)
-    DeleteAllAction(onDeleteClicked = onDeleteClicked)
+    DeleteAllAction(onDeleteClicked = {
+        openDialog = true
+    })
 }
 
 @Composable
