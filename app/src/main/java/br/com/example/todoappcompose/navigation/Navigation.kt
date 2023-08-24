@@ -1,5 +1,6 @@
 package br.com.example.todoappcompose.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,6 +15,7 @@ import br.com.example.todoappcompose.navigation.destinations.taskComposable
 import br.com.example.todoappcompose.ui.screens.list.ListScreen
 import br.com.example.todoappcompose.ui.viewmodels.SharedViewModel
 import br.com.example.todoappcompose.util.Constants
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 
 
 @Composable

@@ -115,5 +115,8 @@ dependencies {
     //Data Store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    //accompanist navigation animation
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.17.0")
+
 
 }
