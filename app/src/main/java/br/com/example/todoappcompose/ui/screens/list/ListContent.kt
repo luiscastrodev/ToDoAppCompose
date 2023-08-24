@@ -35,22 +35,47 @@ import br.com.example.todoappcompose.util.SearchAppBarState
 fun ListContent(
     allTasks: RequestState<List<ToDoTask>>,
     searchTasks: RequestState<List<ToDoTask>>,
+    lowPriotoryTasks: List<ToDoTask>,
+    highPriotoryTasks: List<ToDoTask>,
+    sortState: RequestState<Priority>,
     searchAppBarState: SearchAppBarState,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (searchAppBarState == SearchAppBarState.TRIGGERED) {
-        if (searchTasks is RequestState.Success) {
-            HandleListContent(
-                allTasks = searchTasks.data,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
-        }
-    } else {
-        if (allTasks is RequestState.Success) {
-            HandleListContent(
-                allTasks = allTasks.data,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
+
+    if (sortState is RequestState.Success) {
+
+        when {
+            searchAppBarState == SearchAppBarState.TRIGGERED -> {
+                if (searchTasks is RequestState.Success) {
+                    HandleListContent(
+                        allTasks = searchTasks.data,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+                }
+            }
+
+            sortState.data == Priority.NONE -> {
+                if (allTasks is RequestState.Success) {
+                    HandleListContent(
+                        allTasks = allTasks.data,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+                }
+            }
+
+            sortState.data == Priority.LOW -> {
+                HandleListContent(
+                    allTasks = lowPriotoryTasks,
+                    navigateToTaskScreen = navigateToTaskScreen
+                )
+            }
+
+            sortState.data == Priority.HIGH -> {
+                HandleListContent(
+                    allTasks = highPriotoryTasks,
+                    navigateToTaskScreen = navigateToTaskScreen
+                )
+            }
         }
     }
 }
@@ -149,15 +174,6 @@ fun TaskItem(
     }
 }
 
-@Composable
-@Preview
-fun ListTaskItemPreview() {
-    ListContent(
-        RequestState.Success(listOf()),
-        RequestState.Success(listOf()),
-        SearchAppBarState.TRIGGERED,
-        ){}
-}
 
 @Composable
 @Preview

@@ -1,6 +1,7 @@
 package br.com.example.todoappcompose.ui.viewmodels
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,8 +17,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,6 +47,46 @@ class SharedViewModel @Inject constructor(
 
     private val _searchTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
     val searchTasks: StateFlow<RequestState<List<ToDoTask>>> = _searchTasks
+
+    fun persistSortingState(priority: Priority) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.persistSortState(priority)
+        }
+    }
+
+    val lowPriorityTasks: StateFlow<List<ToDoTask>> =
+        repository.sortByLowPriority().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
+
+    val highPriorityTasks: StateFlow<List<ToDoTask>> =
+        repository.sortByHighPriority().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
+
+    private val _sortState = MutableStateFlow<RequestState<Priority>>(RequestState.Idle)
+    val sortState: StateFlow<RequestState<Priority>> = _sortState
+
+    suspend fun readSortState() {
+        _sortState.value = RequestState.Loading
+        try {
+            viewModelScope.launch {
+                dataStoreRepository.readSortState
+                    .map { priority ->
+                        Priority.valueOf(priority)
+                    }
+                    .collect { priority ->
+                        _sortState.value = RequestState.Success(priority)
+                    }
+            }
+        } catch (e: Exception) {
+            _sortState.value = RequestState.Error(e)
+        }
+    }
 
     fun searchDataBase(
         searchQuery: String
@@ -125,7 +169,7 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    private fun deleteAll (): Unit {
+    private fun deleteAll(): Unit {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteallTask()
         }
