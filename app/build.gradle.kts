@@ -108,4 +108,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
+
+    //Data Store
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }
